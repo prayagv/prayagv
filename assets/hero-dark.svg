@@ -1,0 +1,15 @@
+<svg width="880" height="220" viewBox="0 0 880 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prayag Vyas — Senior Quality Engineer and SDET">
+  <rect x="0.5" y="0.5" width="879" height="219" rx="11.5" fill="#0d1117" stroke="#30363d"/>
+  <circle cx="28" cy="24" r="5" fill="#f85149"/>
+  <circle cx="46" cy="24" r="5" fill="#d29922"/>
+  <circle cx="64" cy="24" r="5" fill="#3fb950"/>
+  <text x="88" y="28.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#8b949e">~/prayagv — quality-engineering</text>
+  <line x1="1" y1="44" x2="879" y2="44" stroke="#21262d"/>
+  <text x="32" y="84" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#3fb950">$ whoami</text>
+  <rect x="110" y="71" width="8" height="16" fill="#3fb950">
+    <animate attributeName="opacity" values="1;0;1" dur="1.6s" repeatCount="indefinite"/>
+  </rect>
+  <text x="32" y="130" font-family="-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif" font-size="38" font-weight="700" fill="#e6edf3">Prayag Vyas</text>
+  <text x="32" y="158" font-family="-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif" font-size="15.5" fill="#8b949e">Senior Quality Engineer · SDET — I build the systems that decide when software is safe to ship.</text>
+  <text x="32" y="192" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#8b949e"><tspan fill="#3fb950">●</tspan><tspan dx="6">UI</tspan><tspan dx="18" fill="#58a6ff">●</tspan><tspan dx="6">API</tspan><tspan dx="18" fill="#bc8cff">●</tspan><tspan dx="6">contracts</tspan><tspan dx="18" fill="#d29922">●</tspan><tspan dx="6">performance</tspan><tspan dx="18" fill="#39c5cf">●</tspan><tspan dx="6">events</tspan><tspan dx="18" fill="#f778ba">●</tspan><tspan dx="6">mobile</tspan><tspan dx="18" fill="#ff7b72">●</tspan><tspan dx="6">LLM evals</tspan></text>
+</svg>

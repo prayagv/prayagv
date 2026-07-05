@@ -1,0 +1,46 @@
+name: quality-signal
+
+# Refreshes assets/quality-signal-{dark,light}.svg from public GitHub events.
+# The generator's unit tests run first; if they fail, nothing is published and
+# the previous cards stay in place. Uses only the default GITHUB_TOKEN — no
+# personal access token or extra secrets required.
+
+on:
+  schedule:
+    - cron: "17 5 * * *" # daily, offset from the top of the hour
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out profile repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Test the generator before trusting it
+        run: python -m unittest discover -s scripts -p "test_*.py" -v
+
+      - name: Regenerate quality-signal cards
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/generate_quality_signal.py --out-dir assets
+
+      - name: Commit refreshed cards (only if they changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- assets; then
+            echo "No changes to publish today."
+          else
+            git add assets/quality-signal-*.svg
+            git commit -m "chore: refresh quality-signal cards"
+            git push
+          fi
