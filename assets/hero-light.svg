@@ -4,6 +4,7 @@
   <circle cx="46" cy="24" r="5" fill="#bf8700"/>
   <circle cx="64" cy="24" r="5" fill="#1a7f37"/>
   <text x="88" y="28.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">~/prayagv — quality-engineering</text>
+  <text x="848" y="28.5" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">Ujjain, IN · UTC+05:30</text>
   <line x1="1" y1="44" x2="879" y2="44" stroke="#eaeef2"/>
   <text x="32" y="84" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#1a7f37">$ whoami</text>
   <rect x="110" y="71" width="8" height="16" fill="#1a7f37">

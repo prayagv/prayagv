@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """Generate the quality-signal SVG cards for the profile README.
 
-Fetches recent public GitHub events for USER and renders them as a
-test-report-style card in dark and light variants. Runs inside the
-quality-signal GitHub Actions workflow on a daily schedule.
+Primary data source is the GitHub GraphQL contributions API — the same
+counters that drive the profile contribution graph, so the card never
+disagrees with the page it lives on. If GraphQL is unavailable the script
+falls back to the public REST events feed, and if that also fails it exits
+non-zero so the workflow keeps the previously published cards.
 
 Offline usage (renders embedded fixture data, no network):
 
     python scripts/generate_quality_signal.py --sample --out-dir assets
-
-If the GitHub API call fails the script exits non-zero, the workflow stops
-before the commit step, and the previously published cards stay in place.
 """
 
 from __future__ import annotations
@@ -24,6 +23,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 USER = "prayagv"
+GRAPHQL_URL = "https://api.github.com/graphql"
 EVENTS_URL = "https://api.github.com/users/{user}/events/public?per_page=100&page={page}"
 WINDOW_DAYS = 30
 SPARK_DAYS = 14
@@ -32,6 +32,27 @@ BAR_MIN_WIDTH = 4
 
 MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
 SANS = "-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif"
+
+CONTRIBUTIONS_QUERY = """
+query($login: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $login) {
+    contributionsCollection(from: $from, to: $to) {
+      totalCommitContributions
+      totalPullRequestContributions
+      totalPullRequestReviewContributions
+      totalRepositoriesWithContributedCommits
+      contributionCalendar {
+        weeks {
+          contributionDays {
+            date
+            contributionCount
+          }
+        }
+      }
+    }
+  }
+}
+"""
 
 THEMES = {
     "dark": {
@@ -55,8 +76,7 @@ THEMES = {
 }
 
 
-def fetch_events() -> list[dict]:
-    """Fetch up to 300 recent public events for USER from the GitHub API."""
+def _request(url: str, data: bytes | None = None) -> dict | list:
     headers = {
         "Accept": "application/vnd.github+json",
         "User-Agent": f"{USER}-profile-quality-signal",
@@ -64,13 +84,56 @@ def fetch_events() -> list[dict]:
     token = os.environ.get("GITHUB_TOKEN")
     if token:
         headers["Authorization"] = f"Bearer {token}"
+    if data is not None:
+        headers["Content-Type"] = "application/json"
+    request = urllib.request.Request(url, data=data, headers=headers)
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.load(response)
 
+
+def fetch_contributions(now: datetime) -> dict:
+    """Query the GraphQL contributions API for the last WINDOW_DAYS."""
+    if not os.environ.get("GITHUB_TOKEN"):
+        raise RuntimeError("GITHUB_TOKEN is required for the GraphQL contributions API")
+    variables = {
+        "login": USER,
+        "from": (now - timedelta(days=WINDOW_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "to": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    body = json.dumps({"query": CONTRIBUTIONS_QUERY, "variables": variables}).encode()
+    payload = _request(GRAPHQL_URL, data=body)
+    if payload.get("errors"):
+        raise RuntimeError(f"GraphQL errors: {payload['errors']}")
+    return payload
+
+
+def summarize_contributions(payload: dict, now: datetime) -> dict:
+    """Reduce a GraphQL contributions response to the card's counters."""
+    collection = payload["data"]["user"]["contributionsCollection"]
+    counts_by_date = {
+        day["date"]: day["contributionCount"]
+        for week in collection["contributionCalendar"]["weeks"]
+        for day in week["contributionDays"]
+    }
+    per_day = [
+        counts_by_date.get((now - timedelta(days=SPARK_DAYS - 1 - slot)).strftime("%Y-%m-%d"), 0)
+        for slot in range(SPARK_DAYS)
+    ]
+    return {
+        "commits": collection["totalCommitContributions"],
+        "prs_opened": collection["totalPullRequestContributions"],
+        "reviews": collection["totalPullRequestReviewContributions"],
+        "repos": collection["totalRepositoriesWithContributedCommits"],
+        "per_day": per_day,
+        "generated": now.strftime("%Y-%m-%d"),
+    }
+
+
+def fetch_events() -> list[dict]:
+    """Fetch up to 300 recent public events for USER (fallback source)."""
     events: list[dict] = []
     for page in (1, 2, 3):
-        url = EVENTS_URL.format(user=USER, page=page)
-        request = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(request, timeout=30) as response:
-            batch = json.load(response)
+        batch = _request(EVENTS_URL.format(user=USER, page=page))
         if not batch:
             break
         events.extend(batch)
@@ -83,10 +146,10 @@ def parse_time(stamp: str) -> datetime:
     return datetime.fromisoformat(stamp.replace("Z", "+00:00"))
 
 
-def summarize(events: list[dict], now: datetime) -> dict:
-    """Reduce raw GitHub events to the counters the card displays."""
+def summarize_events(events: list[dict], now: datetime) -> dict:
+    """Reduce raw REST events to the card's counters (fallback source)."""
     window_start = now - timedelta(days=WINDOW_DAYS)
-    commits = prs_opened = prs_merged = reviews = 0
+    commits = prs_opened = reviews = 0
     repos: set[str] = set()
     per_day = [0] * SPARK_DAYS
 
@@ -108,12 +171,8 @@ def summarize(events: list[dict], now: datetime) -> dict:
             if repo:
                 repos.add(repo)
         elif event_type == "PullRequestEvent":
-            action = payload.get("action")
-            pull_request = payload.get("pull_request") or {}
-            if action == "opened":
+            if payload.get("action") == "opened":
                 prs_opened += 1
-            if action == "closed" and pull_request.get("merged"):
-                prs_merged += 1
             if repo:
                 repos.add(repo)
         elif event_type == "PullRequestReviewEvent":
@@ -124,7 +183,6 @@ def summarize(events: list[dict], now: datetime) -> dict:
     return {
         "commits": commits,
         "prs_opened": prs_opened,
-        "prs_merged": prs_merged,
         "reviews": reviews,
         "repos": len(repos),
         "per_day": per_day,
@@ -155,24 +213,23 @@ def _status_icon(cx: int, cy: int, ok: bool, theme: dict) -> str:
 def render(summary: dict, theme_name: str) -> str:
     theme = THEMES[theme_name]
     rows = [
-        ("commits pushed", summary["commits"],
-         f"across {summary['repos']} public repo{'s' if summary['repos'] != 1 else ''}"),
-        ("pull requests opened", summary["prs_opened"], f"{summary['prs_merged']} merged"),
-        ("code reviews", summary["reviews"], "PR reviews submitted"),
-        ("repos touched", summary["repos"], "distinct public repositories"),
+        ("commits", summary["commits"], f"across {summary['repos']} repositories"),
+        ("pull requests opened", summary["prs_opened"], "same math as the graph"),
+        ("code reviews", summary["reviews"], "submitted on PRs"),
+        ("repos touched", summary["repos"], "commit contributions"),
     ]
     max_value = max(value for _, value, _ in rows)
     all_quiet = max_value == 0
 
     parts = [
         f'<svg width="880" height="300" viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg" role="img"'
-        f' aria-label="Summary of recent public GitHub activity for {USER}, rendered as a test report">',
+        f' aria-label="Summary of the last 30 days of GitHub contributions for {USER}, rendered as a test report">',
         f'<rect x="0.5" y="0.5" width="879" height="299" rx="11.5" fill="{theme["bg"]}" stroke="{theme["border"]}"/>',
         f'<circle cx="32" cy="32" r="5" fill="{theme["accent"]}">'
         f'<animate attributeName="opacity" values="1;0.25;1" dur="2.4s" repeatCount="indefinite"/></circle>',
         f'<text x="46" y="37" font-family="{MONO}" font-size="14" font-weight="700" fill="{theme["text"]}">quality-signal</text>',
         f'<text x="848" y="37" text-anchor="end" font-family="{MONO}" font-size="12" fill="{theme["muted"]}">'
-        f'updated {summary["generated"]} · public events · last {WINDOW_DAYS} days</text>',
+        f'updated {summary["generated"]} · contributions · last {WINDOW_DAYS} days</text>',
         f'<line x1="32" y1="54" x2="848" y2="54" stroke="{theme["border"]}"/>',
     ]
 
@@ -207,7 +264,7 @@ def render(summary: dict, theme_name: str) -> str:
 
     parts.append(
         f'<text x="32" y="246" font-family="{MONO}" font-size="11" fill="{theme["muted"]}">'
-        f"events per day · last {SPARK_DAYS} days</text>"
+        f"contributions per day · last {SPARK_DAYS} days</text>"
     )
     spark_max = max(summary["per_day"]) if summary["per_day"] else 0
     x = 32
@@ -249,14 +306,21 @@ def sample_events(now: datetime) -> list[dict]:
         if day % 5 == 1:
             events.append({"type": "PullRequestEvent", "created_at": stamp,
                            "payload": {"action": "opened"}, "repo": {"name": repo}})
-        if day % 5 == 3:
-            events.append({"type": "PullRequestEvent", "created_at": stamp,
-                           "payload": {"action": "closed", "pull_request": {"merged": True}},
-                           "repo": {"name": repo}})
         if day % 4 == 2:
             events.append({"type": "PullRequestReviewEvent", "created_at": stamp,
                            "payload": {}, "repo": {"name": repo}})
     return events
+
+
+def build_summary(now: datetime, use_sample: bool) -> dict:
+    if use_sample:
+        return summarize_events(sample_events(now), now)
+    try:
+        return summarize_contributions(fetch_contributions(now), now)
+    except Exception as error:  # noqa: BLE001 — degrade to the REST fallback
+        print(f"quality-signal: GraphQL unavailable ({error}); falling back to events feed",
+              file=sys.stderr)
+    return summarize_events(fetch_events(), now)
 
 
 def main() -> int:
@@ -268,13 +332,12 @@ def main() -> int:
 
     now = datetime.now(timezone.utc)
     try:
-        events = sample_events(now) if args.sample else fetch_events()
+        summary = build_summary(now, args.sample)
     except Exception as error:  # noqa: BLE001 — any fetch failure must block publishing
-        print(f"quality-signal: failed to fetch events, keeping previous cards: {error}",
+        print(f"quality-signal: all sources failed, keeping previous cards: {error}",
               file=sys.stderr)
         return 1
 
-    summary = summarize(events, now)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     for theme_name in THEMES:
