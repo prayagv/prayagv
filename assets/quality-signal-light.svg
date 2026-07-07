@@ -2,11 +2,11 @@
 <rect x="0.5" y="0.5" width="879" height="299" rx="11.5" fill="#ffffff" stroke="#d0d7de"/>
 <circle cx="32" cy="32" r="5" fill="#1a7f37"><animate attributeName="opacity" values="1;0.25;1" dur="2.4s" repeatCount="indefinite"/></circle>
 <text x="46" y="37" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#1f2328">quality-signal</text>
-<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">updated 2026-07-06 · contributions · last 30 days</text>
+<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">updated 2026-07-07 · contributions · last 30 days</text>
 <line x1="32" y1="54" x2="848" y2="54" stroke="#d0d7de"/>
 <circle cx="44" cy="87" r="8" fill="none" stroke="#1a7f37" stroke-width="1.6"/><path d="M40.2 87.4 l2.6 2.6 l5.0 -5.6" fill="none" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="66" y="92" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1f2328">commits</text>
-<text x="286" y="92" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="#1f2328">676</text>
+<text x="286" y="92" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="#1f2328">664</text>
 <rect x="300" y="79" width="360" height="10" rx="5" fill="#eaeef2"/>
 <rect x="300" y="79" width="360" height="10" rx="5" fill="#1a7f37"/>
 <text x="674" y="92" font-family="-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif" font-size="12" fill="#57606a">across 7 repositories</text>
@@ -14,7 +14,7 @@
 <text x="66" y="128" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1f2328">pull requests opened</text>
 <text x="286" y="128" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="#1f2328">44</text>
 <rect x="300" y="115" width="360" height="10" rx="5" fill="#eaeef2"/>
-<rect x="300" y="115" width="23" height="10" rx="5" fill="#1a7f37"/>
+<rect x="300" y="115" width="24" height="10" rx="5" fill="#1a7f37"/>
 <text x="674" y="128" font-family="-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif" font-size="12" fill="#57606a">same math as the graph</text>
 <circle cx="44" cy="159" r="8" fill="none" stroke="#1a7f37" stroke-width="1.6"/><path d="M40.2 159.4 l2.6 2.6 l5.0 -5.6" fill="none" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="66" y="164" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1f2328">code reviews</text>
@@ -35,12 +35,12 @@
 <rect x="140" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="176" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="212" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
-<rect x="248" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
-<rect x="284" y="257" width="26" height="29" rx="2" fill="#0969da"/>
-<rect x="320" y="272" width="26" height="14" rx="2" fill="#0969da"/>
-<rect x="356" y="239" width="26" height="47" rx="2" fill="#0969da"/>
-<rect x="392" y="259" width="26" height="27" rx="2" fill="#0969da"/>
-<rect x="428" y="269" width="26" height="17" rx="2" fill="#0969da"/>
-<rect x="464" y="282" width="26" height="4" rx="2" fill="#0969da"/>
+<rect x="248" y="257" width="26" height="29" rx="2" fill="#0969da"/>
+<rect x="284" y="272" width="26" height="14" rx="2" fill="#0969da"/>
+<rect x="320" y="239" width="26" height="47" rx="2" fill="#0969da"/>
+<rect x="356" y="259" width="26" height="27" rx="2" fill="#0969da"/>
+<rect x="392" y="269" width="26" height="17" rx="2" fill="#0969da"/>
+<rect x="428" y="282" width="26" height="4" rx="2" fill="#0969da"/>
+<rect x="464" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="500" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 </svg>
