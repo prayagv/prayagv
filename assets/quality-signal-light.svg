@@ -2,7 +2,7 @@
 <rect x="0.5" y="0.5" width="879" height="299" rx="11.5" fill="#ffffff" stroke="#d0d7de"/>
 <circle cx="32" cy="32" r="5" fill="#1a7f37"><animate attributeName="opacity" values="1;0.25;1" dur="2.4s" repeatCount="indefinite"/></circle>
 <text x="46" y="37" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#1f2328">quality-signal</text>
-<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">updated 2026-07-20 · contributions · last 30 days</text>
+<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">updated 2026-07-21 · contributions · last 30 days</text>
 <line x1="32" y1="54" x2="848" y2="54" stroke="#d0d7de"/>
 <circle cx="44" cy="87" r="8" fill="none" stroke="#1a7f37" stroke-width="1.6"/><path d="M40.2 87.4 l2.6 2.6 l5.0 -5.6" fill="none" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="66" y="92" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1f2328">commits</text>
@@ -31,8 +31,8 @@
 <rect x="32" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="68" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="104" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
-<rect x="140" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
-<rect x="176" y="239" width="26" height="47" rx="2" fill="#0969da"/>
+<rect x="140" y="239" width="26" height="47" rx="2" fill="#0969da"/>
+<rect x="176" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="212" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="248" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
 <rect x="284" y="283" width="26" height="3" rx="2" fill="#eaeef2"/>
