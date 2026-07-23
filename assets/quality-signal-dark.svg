@@ -2,7 +2,7 @@
 <rect x="0.5" y="0.5" width="879" height="299" rx="11.5" fill="#0d1117" stroke="#30363d"/>
 <circle cx="32" cy="32" r="5" fill="#3fb950"><animate attributeName="opacity" values="1;0.25;1" dur="2.4s" repeatCount="indefinite"/></circle>
 <text x="46" y="37" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#e6edf3">quality-signal</text>
-<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#8b949e">updated 2026-07-22 · contributions · last 30 days</text>
+<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#8b949e">updated 2026-07-23 · contributions · last 30 days</text>
 <line x1="32" y1="54" x2="848" y2="54" stroke="#30363d"/>
 <circle cx="44" cy="87" r="8" fill="none" stroke="#3fb950" stroke-width="1.6"/><path d="M40.2 87.4 l2.6 2.6 l5.0 -5.6" fill="none" stroke="#3fb950" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="66" y="92" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#e6edf3">commits</text>
@@ -29,8 +29,8 @@
 <text x="674" y="200" font-family="-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif" font-size="12" fill="#8b949e">commit contributions</text>
 <text x="32" y="232" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">contributions per day · last 14 days</text>
 <rect x="32" y="283" width="26" height="3" rx="2" fill="#21262d"/>
-<rect x="68" y="283" width="26" height="3" rx="2" fill="#21262d"/>
-<rect x="104" y="239" width="26" height="47" rx="2" fill="#58a6ff"/>
+<rect x="68" y="239" width="26" height="47" rx="2" fill="#58a6ff"/>
+<rect x="104" y="283" width="26" height="3" rx="2" fill="#21262d"/>
 <rect x="140" y="283" width="26" height="3" rx="2" fill="#21262d"/>
 <rect x="176" y="283" width="26" height="3" rx="2" fill="#21262d"/>
 <rect x="212" y="283" width="26" height="3" rx="2" fill="#21262d"/>
