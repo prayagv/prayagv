@@ -2,7 +2,7 @@
 <rect x="0.5" y="0.5" width="879" height="299" rx="11.5" fill="#ffffff" stroke="#d0d7de"/>
 <circle cx="32" cy="32" r="5" fill="#1a7f37"><animate attributeName="opacity" values="1;0.25;1" dur="2.4s" repeatCount="indefinite"/></circle>
 <text x="46" y="37" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#1f2328">quality-signal</text>
-<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">updated 2026-08-17 · contributions · last 30 days</text>
+<text x="848" y="37" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#57606a">updated 2026-08-18 · contributions · last 30 days</text>
 <line x1="32" y1="54" x2="848" y2="54" stroke="#d0d7de"/>
 <text x="32" y="76" font-family="-apple-system, 'Segoe UI', Ubuntu, Helvetica, Arial, sans-serif" font-size="12" font-style="italic" fill="#57606a">quiet on public GitHub right now — the pinned repos hold the long-form evidence</text>
 <circle cx="44" cy="87" r="8" fill="none" stroke="#57606a" stroke-width="1.6"/><line x1="40" y1="87" x2="48" y2="87" stroke="#57606a" stroke-width="1.8" stroke-linecap="round"/>
