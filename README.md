@@ -39,7 +39,9 @@ warranty: none — but expect strong opinions about flaky tests
 
 ## `$ ls ~/frameworks --evidence`
 
-Five frameworks, five disciplines. Each is a complete, reviewable system with CI gates, live reports, and a documented reviewer path — I'd rather show evidence than adjectives.
+Five frameworks, five disciplines. Each has CI and a documented reviewer path; the available reports and verified evidence differ by repository. Check the linked run and evidence status before treating a capability as verified.
+
+**Evidence snapshot (2026-10-17):** durable public execution bundles have been verified for ARIA, k6, Playwright, and Selenium. Verity's report page is available, but its required dependency scans still fail on unresolved findings, so Verity has no verified durable bundle in that set. The [portfolio dashboard](https://qa-test-automation-frameworks.github.io/.github/) shows the current source-run and freshness status; a reachable report page alone does not mean its security gate passed.
 
 | Framework | Discipline | What it demonstrates | Evidence |
 |---|---|---|---|
